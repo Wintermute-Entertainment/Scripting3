@@ -97,11 +97,7 @@ public class Ball : MonoBehaviour
             }
         }
          
-        timer.text = Time.time.ToString();
-        if (Time.time > 60)
-        {
-            Destroy(timer);
-        }
+
 
     }
     private void FixedUpdate()
@@ -122,6 +118,14 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag("wall4")) { wallMaterial.DOColor(Color.green, 3); cubeColour = "green"; }
     }
 
+    private void LateUpdate()
+    {
+        timer.text = Time.time.ToString();
+        if (Time.time > 60)
+        {
+            Destroy(timer);
+        }
+    }
 
 }
 
