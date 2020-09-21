@@ -50,6 +50,9 @@ public class HUDManager : MonoBehaviour
     public GameObject wall3;
     public GameObject wall4;
 
+    public GameObject pauseCanvas;
+    private bool pauseMenuActive;
+
     public int gameTime;
     private void Start()
     {
@@ -58,8 +61,28 @@ public class HUDManager : MonoBehaviour
         wall3_Mat.DOColor(Color.red, 4f);
         wall4_Mat.DOColor(Color.green, 4f);
 
-        instructions.transform.DOPunchScale(Vector3.one * 3, 3, 3);
-        
+        instructions.transform.DOPunchScale(Vector3.one * 1, 1, 1);
+        pauseMenuActive = false;
+    }
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            if (pauseMenuActive == false)
+            {
+                pauseCanvas.SetActive(true);
+                pauseMenuActive = true;
+            }
+            
+        }
+        else if (Input.GetKey(KeyCode.Escape))
+        {
+            if (pauseMenuActive)
+            {
+                pauseCanvas.SetActive(false);
+                pauseMenuActive = false;
+            }
+        }
     }
     public void DestoryInstructions()
     {
