@@ -55,6 +55,9 @@
     <Compile Include="Assets\Scripts\WallScript.cs" />
     <Compile Include="Assets\Scripts\HUDManager.cs" />
     <Compile Include="Assets\Scripts\Ball.cs" />
+    <Compile Include="Assets\Scripts\WallScriptCopy.cs" />
+    <Compile Include="Assets\Scripts\CursorFollow.cs" />
+    <Compile Include="Assets\Scripts\MusicRandomizer.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

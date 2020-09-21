@@ -4,10 +4,13 @@ using UnityEngine;
 using DG.Tweening;
 using System.Text;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class Ball : MonoBehaviour
 {
+    public Rigidbody rb;
+
     public Renderer m_Renderer;
     public Material wallMaterial;
     public GameObject wall;
@@ -28,8 +31,12 @@ public class Ball : MonoBehaviour
 
     private float ballYPos;
 
-    public Text score;
-    public Text timer;
+    public TextMeshProUGUI score;
+    public TextMeshProUGUI timer;
+
+    public AudioListener audioListener;
+    public AudioSource ballCollisionSound;
+    public AudioSource kaChing;
 
     
     void Start()
@@ -50,13 +57,15 @@ public class Ball : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow)) { transform.DOMoveZ(moveZ, moveTime); }
         if (Input.GetKeyDown(KeyCode.DownArrow)) { transform.DOMoveZ(-moveZ, moveTime); }
         if (Input.GetKeyDown(KeyCode.Space)) { ballYPos += 10; }
-
-        
+    }
+    private void FixedUpdate()
+    {
         if (cubeColour == "yellow")
         {
             if (WallScript.colourCount == 1)
             {
                 backColourTrue = true;
+                wall2.transform.DOPunchPosition(Vector3.one * 1, 1, 10, 2, false);
             }
             else if (WallScript.colourCount != 1)
             {
@@ -68,6 +77,7 @@ public class Ball : MonoBehaviour
             if (WallScript.colourCount == 2)
             {
                 backColourTrue = true;
+                wall3.transform.DOPunchPosition(Vector3.one * 1, 1, 10, 2, false);
             }
             else if (WallScript.colourCount != 2)
             {
@@ -79,6 +89,7 @@ public class Ball : MonoBehaviour
             if (WallScript.colourCount == 3)
             {
                 backColourTrue = true;
+                wall4.transform.DOPunchPosition(Vector3.one * 1, 1, 10, 2, false);
             }
             else if (WallScript.colourCount != 3)
             {
@@ -90,24 +101,22 @@ public class Ball : MonoBehaviour
             if (WallScript.colourCount == 4)
             {
                 backColourTrue = true;
+                wall.transform.DOPunchPosition(Vector3.one * 1, 1, 10, 2, false);
             }
             else if (WallScript.colourCount != 4)
             {
                 backColourTrue = false;
             }
         }
-         
-
-
-    }
-    private void FixedUpdate()
-    {
         if (backColourTrue)
         {
             points += 1;
             score.text = points.ToString();
             Debug.Log("Gained 1 point.");
+            kaChing.Play();
         }
+
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -116,6 +125,8 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag("wall2")) { wallMaterial.DOColor(Color.red, 3); cubeColour = "red"; }
         if (collision.gameObject.CompareTag("wall3")) { wallMaterial.DOColor(Color.yellow, 3); cubeColour = "yellow"; }
         if (collision.gameObject.CompareTag("wall4")) { wallMaterial.DOColor(Color.green, 3); cubeColour = "green"; }
+
+        ballCollisionSound.Play();
     }
 
     private void LateUpdate()
@@ -123,7 +134,7 @@ public class Ball : MonoBehaviour
         timer.text = Time.time.ToString();
         if (Time.time > 60)
         {
-            Destroy(timer);
+            timer.text = null;
         }
     }
 
